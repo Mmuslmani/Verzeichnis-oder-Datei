@@ -1,0 +1,32 @@
+Write-Host "Sagt ob wir einen Verziechnis oder eine Datei haben"
+Write-Host "Mohammed Muslmani"
+
+$elements = Get-ChildItem -Path C:\Windows
+
+$rows = New-Object System.Collections.ArrayList
+
+
+for ($i=0;$i -lt $elements.Count; $i++){
+    
+    $element = $elements[$i]
+    
+
+  $status =""
+  if ($element.PSISContainer)
+  {
+      $status = "Verzeichnis"
+  }
+  Else
+  {
+     $status = "Datei"
+  }   
+
+   $ps = New-Object PSObject  
+   $ps | Add-Member -MemberType NoteProperty -Name "lfd" -Value ($i+1)
+   $ps | Add-Member -MemberType NoteProperty -Name "Dateiname" -Value $element
+   $ps | Add-Member -MemberType NoteProperty -Name "Art" -Value $status
+   
+   $n = $rows.Add($ps)
+}
+ 
+ $rows | Format-Table 
